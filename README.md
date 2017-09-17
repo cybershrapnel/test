@@ -1,3 +1,22 @@
+# React Image Lightbox
+
+[![NPM](https://nodei.co/npm/react-image-lightbox.png)](https://npmjs.org/package/react-image-lightbox)
+
+A flexible lightbox component for displaying images in a React project.
+
+[DEMO](https://fritz-c.github.io/react-image-lightbox/)
+
+Features
+- Keyboard shortcuts (with rate limiting)
+- Image Zoom
+- Flexible rendering using src values assigned on the fly
+- Image preloading for smoother viewing
+- Mobile friendly, with pinch to zoom and swipe (Thanks, [@webcarrot](https://github.com/webcarrot)!)
+- No external CSS
+
+## Example
+
+```jsx
 import React, { Component } from 'react';
 import Lightbox from 'react-image-lightbox';
 
@@ -53,40 +72,64 @@ export default class LightboxExample extends Component {
     }
 }
 
-## Welcome to GitHub Pages
+```
+## Options
 
-You can use the [editor on GitHub](https://github.com/cybershrapnel/test/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Property            | Type   | Default        | Required | Description
+:-------------------|:------:|:--------------:|:--------:|:----------------------------------------
+mainSrc             | string |                |    yes   | Main display image url
+prevSrc             | string |                |          | Previous display image url (displayed to the left). If left undefined, `onMovePrevRequest` will not be called, and the button not displayed
+nextSrc             | string |                |          | Next display image url (displayed to the right). If left undefined, `onMoveNextRequest` will not be called, and the button not displayed
+mainSrcThumbnail    | string |                |          | Thumbnail image url corresponding to `props.mainSrc`. Displayed as a placeholder while the full-sized image loads.
+prevSrcThumbnail    | string |                |          | Thumbnail image url corresponding to `props.prevSrc`. Displayed as a placeholder while the full-sized image loads.
+nextSrcThumbnail    | string |                |          | Thumbnail image url corresponding to `props.nextSrc`. Displayed as a placeholder while the full-sized image loads.
+onCloseRequest      | func   |                |    yes   | Close window event. Should change the parent state such that the lightbox is not rendered
+onMovePrevRequest   | func   | empty function |          | Move to previous image event. Should change the parent state such that `props.prevSrc` becomes `props.mainSrc`, `props.mainSrc` becomes `props.nextSrc`, etc.
+onMoveNextRequest   | func   | empty function |          | Move to next image event. Should change the parent state such that `props.nextSrc` becomes `props.mainSrc`, `props.mainSrc` becomes `props.prevSrc`, etc.
+onImageLoadError    | func   | empty function |          | Called when an image fails to load.<div>`(imageSrc: string, srcType: string, errorEvent: object): void`</div>
+discourageDownloads | bool   | `false`        |          | Enable download discouragement (prevents [right-click -> Save Image As...])
+animationDisabled   | bool   | `false`        |          | Disable all animation
+animationOnKeyInput | bool   | `false`        |          | Disable animation on actions performed with keyboard shortcuts
+animationDuration   | number | `300`          |          | Animation duration (ms)
+keyRepeatLimit      | number | `180`          |          | Required interval of time (ms) between key actions (prevents excessively fast navigation of images)
+keyRepeatKeyupBonus | number | `40`           |          | Amount of time (ms) restored after each keyup (makes rapid key presses slightly faster than holding down the key to navigate images)
+imageTitle          | node   |                |          | Image title (Descriptive element above image)
+imageCaption        | node   |                |          | Image caption (Descriptive element below image)
+toolbarButtons      | node[] |                |          | Array of custom toolbar buttons
+reactModalStyle     | Object | `{}`           |          | Set `z-index` style, etc., for the parent react-modal ([react-modal style format](https://github.com/reactjs/react-modal#styles))
+imagePadding        | number | `10`           |          | Padding (px) between the edge of the window and the lightbox
+clickOutsideToClose | bool   | `true`         |          | When true, clicks outside of the image close the lightbox
+enableZoom          | bool   | `true`         |          | Set to false to disable zoom functionality and hide zoom buttons
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Browser Compatibility
 
-### Markdown
+| Browser  | Works?                              |
+|:---------|:------------------------------------|
+| Chrome   | Yes                                 |
+| Firefox  | Yes                                 |
+| Safari   | Yes                                 |
+| IE >= 10 | Yes                                 |
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Contributing
 
-```markdown
-Syntax highlighted code block
+After cloning the repository and running `npm install` inside, you can use the following commands to develop and build the project.
 
-# Header 1
-## Header 2
-### Header 3
+```sh
+# Starts a webpack dev server that hosts a demo page with the lightbox.
+# It uses react-hot-loader so changes are reflected on save.
+npm start
 
-- Bulleted
-- List
+# Lints the code with eslint and my custom rules.
+npm run lint
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+# Lints and builds the code, placing the result in the dist directory.
+# This build is necessary to reflect changes if you're 
+#  `npm link`-ed to this repository from another local project.
+npm run build
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Pull requests are welcome!
 
-### Jekyll Themes
+## License
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/cybershrapnel/test/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+MIT
