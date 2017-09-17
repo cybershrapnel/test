@@ -1,4 +1,13 @@
+$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+    event.preventDefault();
+    $(this).ekkoLightbox();
+});
+
 # React Image Lightbox
+
+<a href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox">
+    <img src="https://unsplash.it/600.jpg?image=251" class="img-fluid">
+</a>
 
 [![NPM](https://nodei.co/npm/react-image-lightbox.png)](https://npmjs.org/package/react-image-lightbox)
 
